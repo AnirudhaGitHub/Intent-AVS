@@ -7,6 +7,15 @@
 
 The Intent AVS is a AVS designed to facilitate cross-chain bridging using cross chain intents. It leverages AVS smart contracts to create intents for bridging tokens from a source chain to a destination chain. The system consists of several components, including the Intent AVS (AVS Contract), Intent Filler Contract, and AVS Operators, which work together to ensure secure and efficient token transfers. It is currently live on holesky and base sepolia testnet.
 
+## dapp deployment link:
+https://intent-avs.vercel.app/ 
+
+## demo:
+https://drive.google.com/file/d/19C3e1sOakdA0DoRB5Zg3kVEyXA7N42Zg/view?usp=sharing
+
+## contract deployment address can be found here:
+https://github.com/AnirudhaGitHub/Intent-AVS/tree/master/avs/contracts/deployments
+
 ## Architecture
 
 ![image](https://github.com/user-attachments/assets/96d16317-36c5-4ddc-9a19-92f86eac4bd4)
