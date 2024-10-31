@@ -95,7 +95,7 @@ Install dependencies:
    ```
 
 4. then go to https://intent-avs.vercel.app/ 
-start bridgin token.
+start bridging token.
 
 ## Running the Project On Local
 
