@@ -37,7 +37,7 @@ The Intent AVS is a AVS designed to facilitate cross-chain bridging using cross 
 4. **Verification and Completion**
    - AVS Operators listen to events from the Intent Filler contract, verify the transaction details, and complete the intent by transferring source tokens to the filler on the source chain.
 
-## Running the Project
+## Running the Project On testnet
 
 ### Prerequisites
 
@@ -62,15 +62,68 @@ Install dependencies:
    cd Intent-AVS
    ```
 
-2. **Install Dependencies**
+2. **Install Dependencies **
 
    ```bash
    npm install
    ```
-
 3. **Environment Setup**
 
    - Create a `.env` file in the root directory liek env.example in both global env and inside contract folder
+
+### Running the Services
+(Note that private key address must have destination token on destaination chain. and eth for paying gas)
+1. **Start the Filler Service**
+
+   ```bash
+   npm run start:filler
+   ```
+
+2. **Start the Operator Service**
+
+   ```bash
+   npm run start:operator
+   ```
+
+4. then go to https://intent-avs.vercel.app/ 
+start bridgin token.
+
+## Running the Project On testnet
+
+
+start anvil chain
+```bash
+   npm run start:anvil
+   ```
+
+### Deploy Contracts and Start Operator
+   - Create a `.env` file in the root directory liek env.example in both global env and inside contract folder
+Open a separate terminal window #2, execute the following commands
+
+```sh
+# Setup .env file
+cp .env.example .env
+cp contracts/.env.example contracts/.env
+
+# Updates dependencies if necessary and builds the contracts 
+npm run build
+
+# Deploy the EigenLayer contracts
+npm run deploy:core-local
+
+# Deploy the intent AVS contracts
+npm run deploy:deploy:intent-local
+
+# Deploy the intent filler contracts
+npm run deploy:deploy:intentfiller-local
+
+# Deploy the mock-erc20 contracts
+npm run deploy:deploy:mock-erc20-local
+
+#  Update ABIs
+npm run extract:abis
+
+```
 
 ### Running the Services
 
