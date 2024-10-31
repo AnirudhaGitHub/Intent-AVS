@@ -41,17 +41,25 @@ The Intent AVS is a AVS designed to facilitate cross-chain bridging using cross 
 
 ### Prerequisites
 
-- **Node.js**: Ensure you have Node.js installed on your system.
-- **npm**: Node Package Manager is required to install dependencies.
-- **TypeScript**: The project is written in TypeScript, so ensure you have it installed globally.
+The following instructions explain how to manually deploy the AVS from scratch including EigenLayer and AVS specific contracts using Foundry (forge) to a local anvil chain, and start Typescript Operator application and tasks.
+
+Install dependencies:
+
+- [Node](https://nodejs.org/en/download/)
+- [Typescript](https://www.typescriptlang.org/download)
+- [ts-node](https://www.npmjs.com/package/ts-node)
+- [tcs](https://www.npmjs.com/package/tcs#installation)
+- [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+- [Foundry](https://getfoundry.sh/)
+- [ethers](https://www.npmjs.com/package/ethers)
 
 ### Installation
 
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/your-repo/bridge-intent-service.git
-   cd bridge-intent-service
+   git clone https://github.com/AnirudhaGitHub/Intent-AVS.git
+   cd Intent-AVS
    ```
 
 2. **Install Dependencies**
@@ -62,36 +70,25 @@ The Intent AVS is a AVS designed to facilitate cross-chain bridging using cross 
 
 3. **Environment Setup**
 
-   - Create a `.env` file in the root directory and add the following environment variables:
-
-     ```env
-     WS_RPC_URL=wss://your-websocket-rpc-url
-     DESTINATION_WS_RPC_URL=wss://your-destination-websocket-rpc-url
-     PRIVATE_KEY=your-private-key
-     ```
+   - Create a `.env` file in the root directory liek env.example in both global env and inside contract folder
 
 ### Running the Services
 
 1. **Start the Filler Service**
 
    ```bash
-   npm run start:filler
+   npm run start:filler-local
    ```
 
 2. **Start the Operator Service**
 
    ```bash
-   npm run start:operator
+   npm run start:operator-local
+   ```
+3. **Start the create intent service**
+
+   ```bash
+   npm run start:traffic-local
    ```
 
-### Testing
 
-- Ensure you have a local blockchain or testnet setup to test the contracts and services.
-
-## Contributing
-
-Contributions are welcome! Please fork the repository and submit a pull request for any improvements or bug fixes.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
