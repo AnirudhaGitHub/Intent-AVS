@@ -88,7 +88,7 @@ Install dependencies:
 4. then go to https://intent-avs.vercel.app/ 
 start bridgin token.
 
-## Running the Project On testnet
+## Running the Project On Local
 
 
 start anvil chain
