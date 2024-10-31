@@ -1,22 +1,54 @@
-# Hello World AVS
+# Intent AVS
 
-Welcome to the Hello World AVS. This project shows you the simplest functionality you can expect from an AVS. It will give you a concrete understanding of the basic components. For new users, please find [this video walkthrough](https://drive.google.com/file/d/1P6uA6kYWCbpeorTjADuoTlQ-q8uqwPZf/view?usp=sharing) of the hello world AVS repository.
+![image](https://github.com/user-attachments/assets/07647238-eea9-45a0-a000-3318c4e4b466)
+
+
+## Introduction
+
+The Intent AVS is a AVS designed to facilitate cross-chain bridging using cross chain intents. It leverages AVS smart contracts to create intents for bridging tokens from a source chain to a destination chain. The system consists of several components, including the Intent AVS (AVS Contract), Intent Filler Contract, and AVS Operators, which work together to ensure secure and efficient token transfers. It is currently live on holesky and base sepolia testnet.
+
+## dapp deployment link:
+https://intent-avs.vercel.app/ 
+
+## demo:
+https://drive.google.com/file/d/19C3e1sOakdA0DoRB5Zg3kVEyXA7N42Zg/view?usp=sharing
+
+## contract deployment address can be found here:
+https://github.com/AnirudhaGitHub/Intent-AVS/tree/master/avs/contracts/deployments
 
 ## Architecture
 
-![hello-world-png](./assets/hello-world-diagramv2.png)
+![image](https://github.com/user-attachments/assets/96d16317-36c5-4ddc-9a19-92f86eac4bd4)
 
-### AVS User Flow
 
-1) AVS consumer requests a "Hello World" message to be generated and signed.
-2) HelloWorld contract receives the request and emits a NewTaskCreated event for the request.
-3) All Operators who are registered to the AVS and has staked, delegated assets takes this request. Operator generates the requested message, hashes it, and signs the hash with their private key.
-4) Each Operator submits their signed hash back to the HelloWorld AVS contract.
-5) If the Operator is registered to the AVS and has the minimum needed stake, the submission is accepted.
+### Components
 
-That's it. This simple flow highlights some of the core mechanics of how AVSs work.
+1. **Intent AVS Provider (AVS Contract)**
+   - A smart contract where users create intents to bridge tokens from a source chain to a destination chain.
 
-# Local Devnet Deployment
+2. **Intent Filler Contract**
+   - Deployed on the destination chain, this contract listens for events from the AVS contract and facilitates the transfer of destination tokens to the user.
+
+3. **AVS Operators**
+   - Entities that listen to events emitted by the Intent Filler contract to verify the correctness of the fill data and complete the intent by sending source tokens to the filler on the source chain.
+
+### Workflow
+
+1. **User Interaction**
+   - Users interact with the Intent AVS Provider to create intents specifying the source and destination tokens and chains.
+
+2. **Event Emission**
+   - The AVS contract emits events when a new intent is created.
+
+3. **Intent Filling**
+   - The Intent Filler contract on the destination chain listens for these events and transfers the specified amount of destination tokens to the user.
+
+4. **Verification and Completion**
+   - AVS Operators listen to events from the Intent Filler contract, verify the transaction details, and complete the intent by transferring source tokens to the filler on the source chain.
+
+## Running the Project On testnet
+
+### Prerequisites
 
 The following instructions explain how to manually deploy the AVS from scratch including EigenLayer and AVS specific contracts using Foundry (forge) to a local anvil chain, and start Typescript Operator application and tasks.
 
@@ -30,21 +62,51 @@ Install dependencies:
 - [Foundry](https://getfoundry.sh/)
 - [ethers](https://www.npmjs.com/package/ethers)
 
-### Start Anvil Chain
+### Installation
 
-In terminal window #1, execute the following commands:
+1. **Clone the Repository**
 
-```sh
+   ```bash
+   git clone https://github.com/AnirudhaGitHub/Intent-AVS.git
+   cd Intent-AVS
+   ```
 
-# Install npm packages
-npm install
+2. **Install Dependencies **
 
-# Start local anvil chain
-npm run start:anvil
-```
+   ```bash
+   npm install
+   ```
+3. **Environment Setup**
+
+   - Create a `.env` file in the root directory liek env.example in both global env and inside contract folder
+
+### Running the Services
+(Note that private key address must have destination token on destaination chain. and eth for paying gas)
+1. **Start the Filler Service**
+
+   ```bash
+   npm run start:filler
+   ```
+
+2. **Start the Operator Service**
+
+   ```bash
+   npm run start:operator
+   ```
+
+4. then go to https://intent-avs.vercel.app/ 
+start bridging token.
+
+## Running the Project On Local
+
+
+start anvil chain
+```bash
+   npm run start:anvil
+   ```
 
 ### Deploy Contracts and Start Operator
-
+   - Create a `.env` file in the root directory liek env.example in both global env and inside contract folder
 Open a separate terminal window #2, execute the following commands
 
 ```sh
@@ -56,104 +118,39 @@ cp contracts/.env.example contracts/.env
 npm run build
 
 # Deploy the EigenLayer contracts
-npm run deploy:core
+npm run deploy:core-local
 
-# Deploy the Hello World AVS contracts
-npm run deploy:hello-world
+# Deploy the intent AVS contracts
+npm run deploy:deploy:intent-local
 
-# (Optional) Update ABIs
+# Deploy the intent filler contracts
+npm run deploy:deploy:intentfiller-local
+
+# Deploy the mock-erc20 contracts
+npm run deploy:deploy:mock-erc20-local
+
+#  Update ABIs
 npm run extract:abis
 
-# Start the Operator application
-npm run start:operator
-
 ```
 
-### Create Hello-World-AVS Tasks
+### Running the Services
 
-Open a separate terminal window #3, execute the following commands
+1. **Start the Filler Service**
 
-```sh
-# Start the createNewTasks application 
-npm run start:traffic
-```
+   ```bash
+   npm run start:filler-local
+   ```
 
-### Help and Support
+2. **Start the Operator Service**
 
-For help and support deploying and modifying this repo for your AVS, please:
+   ```bash
+   npm run start:operator-local
+   ```
+3. **Start the create intent service**
 
-1. Open a ticket via the intercom link at [support.eigenlayer.xyz](https://support.eigenlayer.xyz).
-2. Include the necessary troubleshooting information for your environment:
-  * Local anvil testing:
-    * Redeploy your local test using `--revert-strings debug` flag via the following commands and retest: `npm run deploy:core-debug && npm run deploy:hello-world-debug`
-    * Include the full stacktrace from your error as a .txt file attachment.
-    * Create a minimal repo that demonstrates the behavior (fork or otherwise)
-    * Steps require to reproduce issue (compile and cause the error)
-  * Holesky testing:
-    * Ensure contracts are verified on Holesky. Eg `forge verify-contract --chain-id 17000 --num-of-optimizations 200 src/YourContract.sol:YourContract YOUR_CONTRACT_ADDRESS`
-    * Send us your transaction hash where your contract is failing. We will use Tenderly to debug (adjust gas limit) and/or cast to re-run the transaction (eg `cast call --trace "trace_replayTransaction(0xTransactionHash)"`).
-
-- Local anvil testing:
-  - Recompile the contracts with the `--revert-strings debug` flag. Deploy the contracts again and retest.
-  - Include the full stacktrace from your error as a .txt file attachment.
-  - Create a minimal repo that demonstrates the behavior (fork or otherwise).
-  - Steps require to reproduce issue (compile and cause the error).
-- Holesky testing:
-  - Ensure contracts are verified on Holesky. Eg `forge verify-contract --chain-id 17000 --num-of-optimizations 200 src/YourContract.sol:YourContract YOUR_CONTRACT_ADDRESS`
-  - Send us your transaction hash where your contract is failing. We will use Tenderly to debug (adjust gas limit) and/or cast to re-run the transaction (eg `cast call --trace "trace_replayTransaction(0xTransactionHash)"`).
-
-### Contact Us
-
-If you're planning to build an AVS and would like to speak with a member of the EigenLayer DevRel team to discuss your ideas or architecture, please fill out this form and we'll be in touch shortly: [EigenLayer AVS Intro Call](https://share.hsforms.com/1BksFoaPjSk2l3pQ5J4EVCAein6l)
+   ```bash
+   npm run start:traffic-local
+   ```
 
 
-### Disclaimers
-
-- This repo is meant currently intended for _local anvil development testing_. Holesky deployment support will be added shortly.
-- Users who wish to build an AVS for Production purposes will want to migrate from the `ECDSAServiceManagerBase` implementation in `HelloWorldServiceManager.sol` to a BLS style architecture using [RegistryCoordinator](https://github.com/Layr-Labs/eigenlayer-middleware/blob/dev/docs/RegistryCoordinator.md).
-
-# Appendix (Future Capabilities In Progress)
-
-## Adding a New Strategy
-
-## Potential Enhancements to the AVS (for learning purposes)
-
-The architecture can be further enhanced via:
-
-- the nature of the request is more sophisticated than generating a constant string
-- the operators might need to coordinate with each other
-- the type of signature is different based on the constraints of the service
-- the type and amount of security used to secure the AVS
-
-## Rust Operator instructions
-
-### Automated deployment (uses existing state file)
-
-1. Run `make start-chain-with-contracts-deployed`
-    - This will build the contracts, start an Anvil chain, deploy the contracts to it, and leaves the chain running in the current terminal
-
-2. Run `make start-rust-operator`
-
-3. Run `make spam-rust-tasks`
-
-Tests are supported in anvil only . Make sure to run the 1st command before running the  tests:
-
-```
-cargo test --workspace
-```
-
-## Existing Holesky Testnet Deployment
-
-| Contract Name               | Holesky Address                                   |
-| -------------               | -------------                                     |
-| Hello World Service Manager | [0x3361953F4a9628672dCBcDb29e91735fb1985390](https://holesky.etherscan.io/address/0x3361953F4a9628672dCBcDb29e91735fb1985390)    |
-
-Please see [Current Testnet Deployment](https://github.com/Layr-Labs/eigenlayer-contracts?tab=readme-ov-file#current-testnet-deployment) for additional deployed addresses.
-
-You don't need to run a deployment script for holesky testnet, the contracts are already deployed.
-
-1. Use the HOLESKY_ namespace env parameters in the code , instead of normal parameters.
-
-2. Run `make start-rust-operator`
-
-3. Run `make spam-rust-tasks`
