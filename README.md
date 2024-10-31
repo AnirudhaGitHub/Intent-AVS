@@ -5,7 +5,7 @@
 
 ## Introduction
 
-The Intent AVS is a AVS designed to facilitate cross-chain bridging using cross chain intents. It leverages AVS smart contracts to create intents for bridging tokens from a source chain to a destination chain. The system consists of several components, including the Intent AVS (AVS Contract), Intent Filler Contract, and AVS Operators, which work together to ensure secure and efficient token transfers.
+The Intent AVS is a AVS designed to facilitate cross-chain bridging using cross chain intents. It leverages AVS smart contracts to create intents for bridging tokens from a source chain to a destination chain. The system consists of several components, including the Intent AVS (AVS Contract), Intent Filler Contract, and AVS Operators, which work together to ensure secure and efficient token transfers. It is currently live on holesky and base sepolia testnet.
 
 ## Architecture
 
